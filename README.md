@@ -236,7 +236,13 @@ docker-compose exec app php artisan cache:clear
 docker-compose exec app php artisan config:clear
 docker-compose exec app php artisan view:clear
 
-# Recriar banco de dados
+# Executar migrations
+docker-compose exec app php artisan migrate
+
+# Executar seeders
+docker-compose exec app php artisan db:seed
+
+# Recriar banco de dados (apaga tudo e recria)
 docker-compose exec app php artisan migrate:fresh --seed
 
 # Criar novo componente Livewire
