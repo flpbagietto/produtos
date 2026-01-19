@@ -43,11 +43,9 @@ Este projeto implementa um sistema completo de busca de produtos com as seguinte
 O projeto está configurado para inicializar automaticamente. Basta executar:
 
 ```bash
-# 1. Clonar o repositório
-git clone <url-do-repositorio>
-cd estoque
 
-# 2. Subir o ambiente (tudo será configurado automaticamente)
+
+# 1. Subir o ambiente (tudo será configurado automaticamente)
 docker-compose up -d --build
 ```
 
