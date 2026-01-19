@@ -121,9 +121,7 @@
         @else
             <div class="sem-resultados">
                 <div class="sem-resultados-texto">Nenhum produto encontrado</div>
-                <div class="sem-resultados-subtexto">
-                    Tente ajustar os filtros de busca
-                </div>
+               
             </div>
         @endif
     </main>
