@@ -43,11 +43,11 @@ Este projeto implementa um sistema completo de busca de produtos com as seguinte
 O projeto está configurado para inicializar automaticamente. Basta executar:
 
 ```bash
-
-
-# 1. Subir o ambiente (tudo será configurado automaticamente)
+# Subir o ambiente (tudo será configurado automaticamente)
 docker-compose up -d --build
 ```
+
+**Importante:** Use sempre `docker-compose up -d --build` para garantir que a imagem seja reconstruída com as últimas alterações. Se você já tiver containers rodando anteriormente, pode ser necessário limpar containers e imagens antigas primeiro (veja seção Troubleshooting).
 
 O script de inicialização irá automaticamente:
 - Aguardar o MySQL estar pronto
@@ -260,6 +260,28 @@ Este projeto segue rigorosamente:
 
 ## Troubleshooting
 
+### Limpeza de containers e imagens antigas
+
+Se você já rodou o projeto anteriormente e está encontrando problemas, é recomendado fazer uma limpeza completa antes de subir novamente:
+
+```bash
+# Parar e remover todos os containers, volumes e redes
+docker-compose down -v
+
+# Remover imagens órfãs e containers antigos
+docker image prune -f
+docker container prune -f
+
+# Reconstruir e subir do zero
+docker-compose up -d --build
+```
+
+Isso garante que não haja conflitos com configurações antigas ou containers com nomes diferentes.
+
+### Erro 'ContainerConfig' ou conflito de containers
+
+Se você receber o erro `KeyError: 'ContainerConfig'` ao tentar subir os containers, significa que há conflito com containers ou imagens antigas. Execute a limpeza acima e tente novamente.
+
 ### Erro de conexão com banco de dados
 
 Verifique se o container MySQL está rodando:
@@ -276,21 +298,11 @@ docker-compose up -d mysql
 
 ### Erro de permissões
 
-Ajuste as permissões do diretório storage:
+O script de inicialização já ajusta as permissões automaticamente. Se ainda assim encontrar problemas, execute:
 
 ```bash
 docker-compose exec app chmod -R 775 storage bootstrap/cache
 docker-compose exec app chown -R www-data:www-data storage bootstrap/cache
-```
-
-### Limpar tudo e recomeçar
-
-```bash
-docker-compose down -v
-docker-compose up -d
-docker-compose exec app composer install
-docker-compose exec app php artisan key:generate
-docker-compose exec app php artisan migrate:fresh --seed
 ```
 
 ## Licença
