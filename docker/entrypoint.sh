@@ -9,6 +9,11 @@ done
 
 echo "MySQL está pronto!"
 
+echo "Ajustando permissões..."
+mkdir -p storage/logs storage/framework/cache storage/framework/sessions storage/framework/views bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache
+
 if [ ! -f .env ]; then
     echo "Criando arquivo .env..."
     cat > .env << 'EOF'
