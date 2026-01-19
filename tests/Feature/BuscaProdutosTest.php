@@ -18,6 +18,7 @@ class BuscaProdutosTest extends TestCase
     private Categoria $categoriaRoupas;
     private Marca $marcaSamsung;
     private Marca $marcaNike;
+    private Marca $marcaDell;
     private Produto $produto1;
     private Produto $produto2;
     private Produto $produto3;
@@ -31,17 +32,25 @@ class BuscaProdutosTest extends TestCase
         
         $this->marcaSamsung = Marca::factory()->create(['nome' => 'Samsung']);
         $this->marcaNike = Marca::factory()->create(['nome' => 'Nike']);
+        $this->marcaDell = Marca::factory()->create(['nome' => 'Dell']);
 
-        $this->produto1 = Produto::factory()->create(['nome' => 'Smartphone Galaxy']);
-        $this->produto1->categorias()->sync([$this->categoriaEletronicos->id]);
-        $this->produto1->marcas()->sync([$this->marcaSamsung->id]);
+        $this->produto1 = Produto::factory()->create([
+            'nome' => 'Smartphone Galaxy',
+            'categoria_id' => $this->categoriaEletronicos->id,
+            'marca_id' => $this->marcaSamsung->id,
+        ]);
 
-        $this->produto2 = Produto::factory()->create(['nome' => 'Tênis Esportivo']);
-        $this->produto2->categorias()->sync([$this->categoriaRoupas->id]);
-        $this->produto2->marcas()->sync([$this->marcaNike->id]);
+        $this->produto2 = Produto::factory()->create([
+            'nome' => 'Tênis Esportivo',
+            'categoria_id' => $this->categoriaRoupas->id,
+            'marca_id' => $this->marcaNike->id,
+        ]);
 
-        $this->produto3 = Produto::factory()->create(['nome' => 'Notebook Dell']);
-        $this->produto3->categorias()->sync([$this->categoriaEletronicos->id]);
+        $this->produto3 = Produto::factory()->create([
+            'nome' => 'Notebook Dell',
+            'categoria_id' => $this->categoriaEletronicos->id,
+            'marca_id' => $this->marcaDell->id,
+        ]);
     }
 
     public function test_busca_por_nome_do_produto(): void
@@ -64,8 +73,6 @@ class BuscaProdutosTest extends TestCase
 
     public function test_busca_por_marca(): void
     {
-        $this->produto3->marcas()->sync([]);
-        
         Livewire::test(BuscaProdutos::class)
             ->set('marcasSelecionadas', [$this->marcaSamsung->id])
             ->assertSee('Smartphone Galaxy')
@@ -96,36 +103,23 @@ class BuscaProdutosTest extends TestCase
 
     public function test_busca_por_multiplas_categorias(): void
     {
-        $produtoMultiCategoria = Produto::factory()->create(['nome' => 'Produto Multi']);
-        $produtoMultiCategoria->categorias()->sync([
-            $this->categoriaEletronicos->id,
-            $this->categoriaRoupas->id
-        ]);
-
         Livewire::test(BuscaProdutos::class)
             ->set('categoriasSelecionadas', [
                 $this->categoriaEletronicos->id,
                 $this->categoriaRoupas->id
             ])
-            ->assertSee('Produto Multi')
             ->assertSee('Smartphone Galaxy')
-            ->assertSee('Tênis Esportivo');
+            ->assertSee('Tênis Esportivo')
+            ->assertSee('Notebook Dell');
     }
 
     public function test_busca_por_multiplas_marcas(): void
     {
-        $produtoMultiMarca = Produto::factory()->create(['nome' => 'Produto Multi Marca']);
-        $produtoMultiMarca->marcas()->sync([
-            $this->marcaSamsung->id,
-            $this->marcaNike->id
-        ]);
-
         Livewire::test(BuscaProdutos::class)
             ->set('marcasSelecionadas', [
                 $this->marcaSamsung->id,
                 $this->marcaNike->id
             ])
-            ->assertSee('Produto Multi Marca')
             ->assertSee('Smartphone Galaxy')
             ->assertSee('Tênis Esportivo');
     }

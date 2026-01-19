@@ -136,9 +136,7 @@ estoque/
 │   ├── migrations/
 │   │   ├── create_categorias_table.php
 │   │   ├── create_marcas_table.php
-│   │   ├── create_produtos_table.php
-│   │   ├── create_produto_categoria_table.php
-│   │   └── create_produto_marca_table.php
+│   │   └── create_produtos_table.php
 │   └── seeders/
 │       └── DatabaseSeeder.php
 ├── resources/
@@ -166,6 +164,8 @@ estoque/
   - `id` (PK)
   - `nome`
   - `descricao`
+  - `categoria_id` (FK)
+  - `marca_id` (FK)
   - `created_at`
   - `updated_at`
 
@@ -181,26 +181,12 @@ estoque/
   - `created_at`
   - `updated_at`
 
-- **produto_categoria**: Tabela pivot (Many-to-Many)
-  - `id` (PK)
-  - `produto_id` (FK)
-  - `categoria_id` (FK)
-  - `created_at`
-  - `updated_at`
-
-- **produto_marca**: Tabela pivot (Many-to-Many)
-  - `id` (PK)
-  - `produto_id` (FK)
-  - `marca_id` (FK)
-  - `created_at`
-  - `updated_at`
-
 ### Relacionamentos
 
-- **Produto** possui muitas **Categorias** (Many-to-Many)
-- **Produto** possui muitas **Marcas** (Many-to-Many)
-- **Categoria** possui muitos **Produtos** (Many-to-Many)
-- **Marca** possui muitos **Produtos** (Many-to-Many)
+- **Produto** pertence a uma **Categoria** (One-to-Many)
+- **Produto** pertence a uma **Marca** (One-to-Many)
+- **Categoria** possui muitos **Produtos** (One-to-Many)
+- **Marca** possui muitos **Produtos** (One-to-Many)
 
 ## Funcionalidades do Componente Livewire
 
@@ -208,7 +194,7 @@ estoque/
 
 - `buscarProdutos()`: Realiza a busca de produtos aplicando todos os filtros
 - `aplicarFiltros($query)`: Aplica os filtros combinados na query
-- `limparFiltros()`: Limpa todos os filtros e reseta a paginação
+- `limparFiltros()`: Limpa todos os filtros
 - `atualizarFiltros()`: Atualiza os resultados quando os filtros mudam
 
 ### Filtros Disponíveis

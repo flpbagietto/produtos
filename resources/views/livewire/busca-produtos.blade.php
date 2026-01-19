@@ -108,12 +108,12 @@
                             <div class="produto-descricao">{{ $produto->descricao }}</div>
                         @endif
                         <div class="produto-tags">
-                            @foreach($produto->categorias as $categoria)
-                                <span class="tag tag-categoria">{{ $categoria->nome }}</span>
-                            @endforeach
-                            @foreach($produto->marcas as $marca)
-                                <span class="tag tag-marca">{{ $marca->nome }}</span>
-                            @endforeach
+                            @if($produto->categoria)
+                                <span class="tag tag-categoria">{{ $produto->categoria->nome }}</span>
+                            @endif
+                            @if($produto->marca)
+                                <span class="tag tag-marca">{{ $produto->marca->nome }}</span>
+                            @endif
                         </div>
                     </div>
                 @endforeach

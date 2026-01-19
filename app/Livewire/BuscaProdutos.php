@@ -87,7 +87,7 @@ class BuscaProdutos extends Component
     private function buscarProdutos()
     {
         $query = Produto::query()
-            ->with(['categorias', 'marcas']);
+            ->with(['categoria', 'marca']);
 
         $query = $this->aplicarFiltros($query);
 
@@ -103,18 +103,14 @@ class BuscaProdutos extends Component
         if (!empty($this->categoriasSelecionadas) && is_array($this->categoriasSelecionadas) && count($this->categoriasSelecionadas) > 0) {
             $categoriasIds = array_values(array_filter(array_map('intval', $this->categoriasSelecionadas)));
             if (count($categoriasIds) > 0) {
-                $query->whereHas('categorias', function ($q) use ($categoriasIds) {
-                    $q->whereIn('categorias.id', $categoriasIds);
-                });
+                $query->whereIn('categoria_id', $categoriasIds);
             }
         }
 
         if (!empty($this->marcasSelecionadas) && is_array($this->marcasSelecionadas) && count($this->marcasSelecionadas) > 0) {
             $marcasIds = array_values(array_filter(array_map('intval', $this->marcasSelecionadas)));
             if (count($marcasIds) > 0) {
-                $query->whereHas('marcas', function ($q) use ($marcasIds) {
-                    $q->whereIn('marcas.id', $marcasIds);
-                });
+                $query->whereIn('marca_id', $marcasIds);
             }
         }
 

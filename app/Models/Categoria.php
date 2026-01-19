@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Categoria extends Model
 {
@@ -19,9 +19,9 @@ class Categoria extends Model
     /**
      * Relacionamento: Categoria possui muitos Produtos
      */
-    public function produtos(): BelongsToMany
+    public function produtos(): HasMany
     {
-        return $this->belongsToMany(Produto::class, 'produto_categoria');
+        return $this->hasMany(Produto::class);
     }
 }
 

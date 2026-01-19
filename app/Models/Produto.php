@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Produto extends Model
 {
@@ -15,22 +15,24 @@ class Produto extends Model
     protected $fillable = [
         'nome',
         'descricao',
+        'categoria_id',
+        'marca_id',
     ];
 
     /**
-     * Relacionamento: Produto possui muitas Categorias
+     * Relacionamento: Produto pertence a uma Categoria
      */
-    public function categorias(): BelongsToMany
+    public function categoria(): BelongsTo
     {
-        return $this->belongsToMany(Categoria::class, 'produto_categoria');
+        return $this->belongsTo(Categoria::class);
     }
 
     /**
-     * Relacionamento: Produto possui muitas Marcas
+     * Relacionamento: Produto pertence a uma Marca
      */
-    public function marcas(): BelongsToMany
+    public function marca(): BelongsTo
     {
-        return $this->belongsToMany(Marca::class, 'produto_marca');
+        return $this->belongsTo(Marca::class);
     }
 }
 
